@@ -138,15 +138,30 @@ export default function LegacySection() {
         {/* ── Row 1: Globe + Influence tree ── */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            display: "flex",
             gap: "clamp(32px, 4vw, 56px)",
+            overflow: "hidden",
             marginBottom: "clamp(48px, 7vh, 80px)",
-            alignItems: "start",
           }}
         >
-          <GlobeMap inView={inView} />
-          <InfluenceTree inView={inView} />
+          <div
+            style={{
+              flex: "1 1 0%",
+              height: "clamp(400px, 60vh, 550px)",
+              minWidth: 0,
+            }}
+          >
+            <GlobeMap inView={inView} />
+          </div>
+          <div
+            style={{
+              flex: "1 1 0%",
+              height: "clamp(400px, 60vh, 550px)",
+              minWidth: 0,
+            }}
+          >
+            <InfluenceTree inView={inView} />
+          </div>
         </div>
 
         {/* ── Row 2: Quote tablets ── */}

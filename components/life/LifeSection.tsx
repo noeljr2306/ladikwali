@@ -24,14 +24,14 @@ export default function LifeSection() {
   return (
     <div
       ref={sectionRef}
-      className="relative w-full overflow-hidden min-h-[100dvh] bg-[#0C0806] flex flex-col justify-center"
+      className="relative w-full overflow-hidden min-h-[100dvh] bg-[#0C0806] flex flex-col justify-center mx-80"
     >
       {/* Grain */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none opacity-[0.045] z-[1] 
         bg-[url('data:image/svg+xml,%3Csvg_viewBox=%270_0_200_200%27_xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter_id=%27n%27%3E%3CfeTurbulence_type=%27fractalNoise%27_baseFrequency=%270.75%27_numOctaves=%274%27/%3E%3C/filter%3E%3Crect_width=%27100%25%27_height=%27100%25%27_filter=%27url(%23n)%27/%3E%3C/svg%3E')] 
-        bg-[length:180px]"
+        bg-size-[180px]"
       />
 
       {/* Ambient glow */}
@@ -48,10 +48,10 @@ export default function LifeSection() {
         absolute
         top-[clamp(32px,5vh,56px)]
         left-[clamp(80px,10vw,140px)]
-        z-[3]
-        flex items-center gap-[14px]
-        transition-all duration-[800ms] delay-[100ms]
-        ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[10px]"}
+        z-3
+        flex items-center gap-3.5
+        transition-all duration-800 delay-100
+        ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2.5"}
         `}
       >
         <div className="w-[28px] h-[1px] bg-[linear-gradient(to_right,transparent,rgba(196,98,45,0.5))]" />
@@ -64,9 +64,9 @@ export default function LifeSection() {
       {/* Content grid */}
       <div
         className="relative z-[2] grid grid-cols-2 items-center
-        gap-[clamp(40px,6vw,100px)]
-        px-[clamp(80px,10vw,140px)]
-        py-[clamp(80px,12vh,120px)]"
+        gap-[clamp(3px,4vw,10px)]
+         top-[clamp(32px,5vh,56px)]
+        left-[clamp(80px,10vw,140px)]"
       >
         <BiographyText inView={inView} />
         <NairaReveal inView={inView} />

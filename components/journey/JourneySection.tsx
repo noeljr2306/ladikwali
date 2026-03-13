@@ -135,7 +135,7 @@ export default function JourneySection() {
   return (
     <div
       ref={sectionRef}
-      className="relative overflow-hidden h-[100dvh]"
+      className="relative overflow-hidden h-dvh"
       style={{ background: bg, transition: "background 0.1s ease" }}
     >
       {/* Grain */}

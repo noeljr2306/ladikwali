@@ -186,3 +186,13 @@ html.lenis {
 .animate-scrollPulse {
   animation: scrollPulse 2s ease-in-out infinite;
 }
+@media (max-width: 640px) {
+  .quote-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .quote-selector {
+    flex-direction: row !important;
+    justify-content: center;
+    gap: 24px;
+  }
+}

@@ -1,68 +1,124 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 
 export default function HeroSection() {
-  const [mounted, setMounted] = useState(false);
+  const wordsRef = useRef<HTMLSpanElement[]>([]);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const t = setTimeout(() => setMounted(true), 100);
-    return () => clearTimeout(t);
+    const words = wordsRef.current;
+    const scrollEl = scrollRef.current;
+
+    // Set initial hidden state
+    gsap.set(words, { opacity: 0, y: -60, clipPath: "inset(0 0 100% 0)" });
+    gsap.set(scrollEl, { opacity: 0 });
+
+    const tl = gsap.timeline({ delay: 0.8 }); // adjust delay to match your loader
+
+    words.forEach((word, i) => {
+      tl.to(
+        word,
+        {
+          opacity: 1,
+          y: 0,
+          clipPath: "inset(0 0 0% 0)",
+          duration: 0.55,
+          ease: "power3.out",
+        },
+        i * 0.13, // stagger offset
+      );
+    });
+
+    tl.to(
+      scrollEl,
+      { opacity: 1, duration: 0.8, ease: "power2.inOut" },
+      "+=0.3",
+    );
   }, []);
 
+  const addWord = (el: HTMLSpanElement | null) => {
+    if (el && !wordsRef.current.includes(el)) wordsRef.current.push(el);
+  };
+
   return (
-    <div className="relative w-full flex items-center justify-center overflow-hidden h-dvh min-h-150 bg-[#B5522B]">
+    <div className="relative w-full flex items-center justify-center overflow-hidden h-dvh min-h-150 bg-[#230d04]">
       {/* Grain */}
       <div
         aria-hidden
-        className="absolute inset-0 pointer-events-none opacity-[0.06] z-1 bg-[url('data:image/svg+xml,%3Csvg_viewBox=%270_0_200_200%27_xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter_id=%27n%27%3E%3CfeTurbulence_type=%27fractalNoise%27_baseFrequency=%270.75%27_numOctaves=%274%27/%3E%3C/filter%3E%3Crect_width=%27100%25%27_height=%27100%25%27_filter=%27url(%23n)%27/%3E%3C/svg%3E')] bg-size-[45px]"
+        className="absolute inset-0 pointer-events-none opacity-[0.06] z-1 bg-[url('data:image/svg+xml,...')] bg-size-[45px]"
       />
 
       {/* Typography block */}
-      <div
-        className={`
-          relative z-2 text-left
-          px-[clamp(32px,8vw,120px)]
-          leading-[0.92]
-          transition-all duration-1000 delay-200
-          ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}
-        `}
-      >
-        {/* Row 1 */}
+      <div className="relative z-2 text-left px-[clamp(32px,8vw,120px)] leading-[0.92]">
         <div className="flex items-baseline gap-[clamp(8px,1.5vw,18px)]">
-          <span className="italic-text">The</span>
-          <span className="bold-text">LIFE</span>
+          <span
+            ref={addWord}
+            className="italic-text"
+            style={{ display: "inline-block" }}
+          >
+            The
+          </span>
+          <span
+            ref={addWord}
+            className="bold-text"
+            style={{ display: "inline-block" }}
+          >
+            LIFE
+          </span>
         </div>
 
-        {/* Row 2 */}
         <div className="flex items-baseline gap-[clamp(8px,1.5vw,18px)]">
-          <span className="italic-text">&amp;</span>
-          <span className="bold-text">WORK</span>
+          <span
+            ref={addWord}
+            className="italic-text"
+            style={{ display: "inline-block" }}
+          >
+            &amp;
+          </span>
+          <span
+            ref={addWord}
+            className="bold-text"
+            style={{ display: "inline-block" }}
+          >
+            WORK
+          </span>
         </div>
 
-        {/* Row 3 */}
         <div className="flex items-baseline gap-[clamp(8px,1.5vw,18px)]">
-          <span className="italic-text">of</span>
-          <span className="bold-text">LADI</span>
+          <span
+            ref={addWord}
+            className="italic-text"
+            style={{ display: "inline-block" }}
+          >
+            of
+          </span>
+          <span
+            ref={addWord}
+            className="bold-text"
+            style={{ display: "inline-block" }}
+          >
+            LADI
+          </span>
         </div>
 
-        {/* Row 4 */}
         <div className="pl-[clamp(52px,9vw,110px)]">
-          <span className="bold-text">KWALI</span>
+          <span
+            ref={addWord}
+            className="bold-text"
+            style={{ display: "inline-block" }}
+          >
+            KWALI
+          </span>
         </div>
       </div>
 
       {/* Scroll indicator */}
       <div
+        ref={scrollRef}
         aria-hidden
-        className={`
-          absolute bottom-[clamp(28px,5vh,48px)] left-1/2
-          -translate-x-1/2
-          z-3
-          flex flex-col items-center gap-2
-          transition-opacity duration-1000 delay-1200
-          ${mounted ? "opacity-100" : "opacity-0"}
-        `}
+        className="absolute bottom-[clamp(28px,5vh,48px)] left-1/2 -translate-x-1/2 z-3 flex flex-col items-center gap-2"
       >
         <div className="w-1 h-12 bg-[linear-gradient(to_bottom,rgba(244,237,228,0.6),transparent)] animate-scrollPulse" />
       </div>

@@ -32,7 +32,7 @@ export default function NairaReveal({ inView }: NairaRevealProps) {
       style={{ transitionDelay: "0.35s" }}
     >
       {/* Eyebrow */}
-      <div className="flex items-center gap-3 self-start">
+      <div className="flex items-center gap-3">
         <div className="w-6 h-1 bg-linear-to-r from-transparent to-[rgba(196,98,45,0.5)]" />
 
         <span className="text-[9px] tracking-[0.38em] text-[rgba(196,98,45,0.5)] uppercase font-[Georgia,serif]">

@@ -102,8 +102,8 @@ export default function QuoteTablets({ inView }: QuoteTabletsProps) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr auto",
-          gap: "clamp(24px,3vw,48px)",
+          gridTemplateColumns: "minmax(0, 1fr) 120px", // fixed width selector column
+          gap: "clamp(16px, 3vw, 48px)",
           alignItems: "start",
         }}
       >
@@ -211,6 +211,9 @@ export default function QuoteTablets({ inView }: QuoteTabletsProps) {
                   fontSize: "11px",
                   color: "#C4622D",
                   letterSpacing: "0.06em",
+                  whiteSpace: "normal",
+                  textAlign: "left",
+                  maxWidth: "90px",
                 }}
               >
                 {activeQuote.author}

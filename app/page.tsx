@@ -25,20 +25,15 @@ export default function Home() {
     setTransition({ active: true, targetId });
   };
 
-  const handleTransitionMid = () => {
-    // Scroll happens inside ClayTransition at midpoint
-  };
+  const handleTransitionMid = () => {};
 
   const handleTransitionDone = () => {
     setTransition({ active: false, targetId: "" });
   };
   return (
     <>
-      {/* Loader — fixed overlay, slides up on complete */}
       <Loader onComplete={() => setLoaded(true)} />
 
-      {/* Site mounts beneath loader immediately,
-          becomes visible when loader slides away  */}
       <SmoothScroll>
         <Navbar onNavigate={triggerTransition} />
 
@@ -47,7 +42,7 @@ export default function Home() {
             {" "}
             <HeroSection />{" "}
           </section>
-          <section id="life">
+          <section id="life" className="mx-80">
             {" "}
             <LifeSection />{" "}
           </section>
