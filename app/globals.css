@@ -1,26 +1,188 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Canela";
+  src: url("/fonts/Canela-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Canela";
+  src: url("/fonts/Canela-RegularItalic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Canela";
+  src: url("/fonts/canela Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sohne";
+  src: url("/fonts/Sohne.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── CSS design tokens ─────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors */
+  --color-kiln: #0c0806;
+  --color-terracotta: #c4622d;
+  --color-iron: #8b2500;
+  --color-celadon: #7dab8a;
+  --color-kaolin: #f4ede4;
+  --color-stoneware: #3d2b1f;
+  --color-naira: #d4a843;
+
+  /* Easing */
+  --ease-clay: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-kiln: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-organic: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Durations */
+  --duration-slow: 1200ms;
+  --duration-medium: 800ms;
+  --duration-fast: 400ms;
+
+  /* Fonts */
+  --font-canela: "Canela", Georgia, serif;
+  --font-sohne: "Sohne", system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── Base resets ───────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  background-color: var(--color-kiln);
+  color: var(--color-kaolin);
+  font-family: var(--font-sohne);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Lenis scroll management */
+html.lenis {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/* ── Utility Classes (The Tailwind Port) ───── */
+
+/* Text Utilities */
+.text-kiln {
+  color: var(--color-kiln);
+}
+.text-terracotta {
+  color: var(--color-terracotta);
+}
+.text-iron {
+  color: var(--color-iron);
+}
+.text-celadon {
+  color: var(--color-celadon);
+}
+.text-kaolin {
+  color: var(--color-kaolin);
+}
+.text-stoneware {
+  color: var(--color-stoneware);
+}
+.text-naira {
+  color: var(--color-naira);
+}
+
+.font-canela {
+  font-family: var(--font-canela);
+}
+.font-sohne {
+  font-family: var(--font-sohne);
+}
+
+/* Background Utilities */
+.bg-kiln {
+  background-color: var(--color-kiln);
+}
+.bg-terracotta {
+  background-color: var(--color-terracotta);
+}
+.bg-stoneware {
+  background-color: var(--color-stoneware);
+}
+.bg-iron {
+  background-color: var(--color-iron);
+}
+
+/* Sizing Utilities */
+.h-screen {
+  height: 100dvh;
+}
+
+/* Transition Utilities */
+.transition-clay {
+  transition-timing-function: var(--ease-clay);
+  transition-duration: var(--duration-medium);
+}
+.transition-kiln {
+  transition-timing-function: var(--ease-kiln);
+  transition-duration: var(--duration-slow);
+}
+.transition-organic {
+  transition-timing-function: var(--ease-organic);
+  transition-duration: var(--duration-fast);
+}
+.bold-text {
+  font-family: Canela, Georgia, serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: clamp(52px, 12vw, 148px);
+  color: #f4ede4;
+  letter-spacing: -0.01em;
+  line-height: 0.92;
+}
+
+.italic-text {
+  font-family: Canela, Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(36px, 8vw, 100px);
+  color: #f4ede4;
+  opacity: 0.82;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
+  min-width: clamp(44px, 7.5vw, 96px);
+  text-align: right;
+}
+
+@keyframes scrollPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scaleY(0.55);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-scrollPulse {
+  animation: scrollPulse 2s ease-in-out infinite;
 }
