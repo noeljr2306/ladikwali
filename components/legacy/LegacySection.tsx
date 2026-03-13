@@ -129,7 +129,7 @@ export default function LegacySection() {
               margin: 0,
             }}
           >
-            Ladi Kwali's legacy stretches across five continents, permanent
+            Ladi Kwali&apos;s legacy stretches across five continents, permanent
             museum collections, national currency, and a generation of ceramic
             artists she never knew she taught.
           </p>

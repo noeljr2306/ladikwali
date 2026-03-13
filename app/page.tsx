@@ -10,10 +10,28 @@ import CraftSection from "@/components/craft/CraftSection";
 import GallerySection from "@/components/gallery/GallerySection";
 import LegacySection from "@/components/legacy/LegacySection";
 import SmoothScroll from "@/components/shared/SmoothScroll";
+import ClayTransition from "@/components/shared/ClayTransition";
+import type { SectionId } from "@/types";
 
 export default function Home() {
   const [loaded, setLoaded] = useState<boolean>(false);
 
+  const [transition, setTransition] = useState<{
+    active: boolean;
+    targetId: string;
+  }>({ active: false, targetId: "" });
+
+  const triggerTransition = (targetId: SectionId) => {
+    setTransition({ active: true, targetId });
+  };
+
+  const handleTransitionMid = () => {
+    // Scroll happens inside ClayTransition at midpoint
+  };
+
+  const handleTransitionDone = () => {
+    setTransition({ active: false, targetId: "" });
+  };
   return (
     <>
       {/* Loader — fixed overlay, slides up on complete */}
@@ -22,7 +40,7 @@ export default function Home() {
       {/* Site mounts beneath loader immediately,
           becomes visible when loader slides away  */}
       <SmoothScroll>
-        <Navbar />
+        <Navbar onNavigate={triggerTransition} />
 
         <main>
           <section id="intro">
@@ -51,6 +69,13 @@ export default function Home() {
           </section>
         </main>
       </SmoothScroll>
+      {transition.active && (
+        <ClayTransition
+          targetId={transition.targetId}
+          onMidpoint={handleTransitionMid}
+          onDone={handleTransitionDone}
+        />
+      )}
     </>
   );
 }

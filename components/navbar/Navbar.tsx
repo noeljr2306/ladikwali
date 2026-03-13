@@ -11,104 +11,127 @@ const NAV_ITEMS: NavItem[] = [
   { id: "legacy", label: "Legacy" },
 ];
 
-export default function Navbar() {
+interface NavbarProps {
+  onNavigate?: (targetId: SectionId) => void;
+}
+
+export default function Navbar({ onNavigate }: NavbarProps) {
   const [active, setActive] = useState<SectionId>("intro");
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 400);
     return () => clearTimeout(t);
   }, []);
 
+  // Active section via IntersectionObserver
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
-
     NAV_ITEMS.forEach(({ id }) => {
       const el = document.getElementById(id);
       if (!el) return;
-
-      const observer = new IntersectionObserver(
+      const obs = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) setActive(id);
         },
-        {
-          root: null,
-          rootMargin: "-40% 0px -40% 0px",
-          threshold: 0,
-        },
+        { rootMargin: "-40% 0px -40% 0px", threshold: 0 },
       );
-
-      observer.observe(el);
-      observers.push(observer);
+      obs.observe(el);
+      observers.push(obs);
     });
-
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  const scrollTo = useCallback((id: SectionId) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth" });
-  }, []);
+  const handleClick = useCallback(
+    (id: SectionId) => {
+      if (onNavigate) {
+        // Use clay transition
+        onNavigate(id);
+      } else {
+        // Fallback: smooth scroll
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    [onNavigate],
+  );
 
   return (
     <nav
       aria-label="Site navigation"
-      className={`
-        fixed left-0 top-1/2 -translate-y-1/2 z-[100]
-        flex flex-col items-center gap-0
-        py-7
-        bg-[rgba(12,8,6,0.55)]
-        backdrop-blur-[8px]
-        border-r border-[rgba(196,98,45,0.1)]
-        transition-opacity duration-[800ms] ease
-        ${visible ? "opacity-100" : "opacity-0"}
-      `}
+      style={{
+        position: "fixed",
+        left: 0,
+        top: "50%",
+        transform: "translateY(-50%)",
+        zIndex: 100,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        background: "rgba(12,8,6,0.55)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        borderRight: "1px solid rgba(196,98,45,0.1)",
+        padding: "28px 0",
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.8s ease",
+      }}
     >
+      {/* Top fade line */}
       <div
-        className="
-          w-[1px] h-12 mb-5
-          bg-[linear-gradient(to_bottom,transparent,rgba(196,98,45,0.25))]
-        "
+        style={{
+          width: "1px",
+          height: "48px",
+          marginBottom: "20px",
+          background:
+            "linear-gradient(to bottom, transparent, rgba(196,98,45,0.25))",
+        }}
       />
 
       {NAV_ITEMS.map(({ id, label }) => {
         const isActive = active === id;
-
         return (
-          <div key={id} className="flex flex-col items-center">
-            {/* Indicator */}
+          <div
+            key={id}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {/* Dot indicator */}
             <div
-              className={`
-                my-[6px] rounded-full transition-all duration-400
-                ${
-                  isActive
-                    ? "w-[3px] h-[3px] bg-[#C4622D] shadow-[0_0_6px_rgba(196,98,45,0.7)]"
-                    : "w-[1px] h-[1px] bg-[rgba(196,98,45,0.25)]"
-                }
-              `}
+              style={{
+                width: isActive ? "3px" : "1px",
+                height: isActive ? "3px" : "1px",
+                borderRadius: "50%",
+                background: isActive ? "#C4622D" : "rgba(196,98,45,0.25)",
+                margin: "6px 0",
+                boxShadow: isActive ? "0 0 6px rgba(196,98,45,0.7)" : "none",
+                transition: "all 0.4s ease",
+              }}
             />
 
             {/* Label */}
             <button
-              onClick={() => scrollTo(id)}
-              aria-label={`Go to ${label} section`}
-              className={`
-                bg-none border-none cursor-pointer
-                px-5 py-2.5
-                text-[9px] uppercase
-                font-[Georgia,serif]
-                outline-none
-                [writing-mode:vertical-rl]
-                [text-orientation:mixed]
-                rotate-180
-                transition-all duration-400
-                ${
-                  isActive
-                    ? "text-[#C4622D] tracking-[0.38em]"
-                    : "text-[rgba(244,237,228,0.3)] tracking-[0.28em]"
-                }
-              `}
+              onClick={() => handleClick(id)}
+              aria-label={`Navigate to ${label}`}
+              aria-current={isActive ? "page" : undefined}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "10px 20px",
+                writingMode: "vertical-rl",
+                textOrientation: "mixed",
+                transform: "rotate(180deg)",
+                fontSize: "9px",
+                letterSpacing: isActive ? "0.38em" : "0.28em",
+                textTransform: "uppercase",
+                fontFamily: "Georgia, serif",
+                color: isActive ? "#C4622D" : "rgba(244,237,228,0.3)",
+                outline: "none",
+                transition: "color 0.4s ease, letter-spacing 0.4s ease",
+              }}
             >
               {label}
             </button>
@@ -116,12 +139,15 @@ export default function Navbar() {
         );
       })}
 
-      {/* Bottom line */}
+      {/* Bottom fade line */}
       <div
-        className="
-          w-[1px] h-12 mt-5
-          bg-[linear-gradient(to_bottom,rgba(196,98,45,0.25),transparent)]
-        "
+        style={{
+          width: "1px",
+          height: "48px",
+          marginTop: "20px",
+          background:
+            "linear-gradient(to bottom, rgba(196,98,45,0.25), transparent)",
+        }}
       />
     </nav>
   );

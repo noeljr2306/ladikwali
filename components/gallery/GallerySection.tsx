@@ -35,21 +35,21 @@ export const POTS: GalleryPot[] = [
   },
   {
     id: "pot-04",
-    title: "Wide-Mouthed Bowl with Fish",
+    title: "Shallow Bowl with Reptile",
     year: "c. 1965",
     technique: "Coil-built, incised, celadon glaze",
     collection: "Aberystwyth University, Wales",
     dimensions: "18cm × 44cm",
-    image: "/images/gallery/pot-04.jpg",
+    image: "/images/gallery/pot-04.webp",
   },
   {
     id: "pot-05",
-    title: "Ceremonial Pot with Crocodile",
+    title: "Leaning Water Pot",
     year: "c. 1961",
     technique: "Coil-built, incised, iron-red glaze",
     collection: "Berkeley Galleries, London",
     dimensions: "42cm × 30cm",
-    image: "/images/gallery/pot-05.jpg",
+    image: "/images/gallery/pot-05.webp",
   },
   {
     id: "pot-06",
@@ -58,7 +58,7 @@ export const POTS: GalleryPot[] = [
     technique: "Coil-built, kaolin slip, wood-fired",
     collection: "Private Collection",
     dimensions: "22cm × 18cm",
-    image: "/images/gallery/pot-06.jpg",
+    image: "/images/gallery/pot-06.webp",
   },
 ];
 

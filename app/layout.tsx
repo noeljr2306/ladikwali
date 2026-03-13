@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-kiln text-kaolin antialiased overflow-x-hidden">
+      <body className="bg-kiln text-kaolin antialiased overflow-x-hidden" suppressHydrationWarning>
         {children}
       </body>
     </html>
